@@ -5,10 +5,12 @@ trigger:
   paths:
     include:
     - widget-function/*
+    - .azure-pipelines/function.yml
 pr:
   paths:
     include:
     - widget-function/*
+    - .azure-pipelines/function.yml
 
 pool:
   vmImage: 'ubuntu-latest'
