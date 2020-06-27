@@ -1,0 +1,50 @@
+variables:
+  projectDir: widget-function
+
+trigger:
+  paths:
+    include:
+    - widget-function/*
+pr:
+  paths:
+    include:
+    - widget-function/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.8'
+    addToPath: true
+    architecture: 'x64'
+- bash: pip install -r dev-requirements.txt
+  name: InstallDependencies
+  workingDirectory: ${{variables.projectDir}}
+- bash: inv l
+  name: Lint
+  workingDirectory: ${{variables.projectDir}}
+- bash: inv t
+  name: Test
+  workingDirectory: ${{variables.projectDir}}
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '${{variables.projectDir}}/junit.xml'
+    testRunTitle: 'aws-widget-function-$(Build.BuildNumber)'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: 'coverage.xml'
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud Swellaby'
+    organization: 'swellaby'
+    scannerMode: 'CLI'
+    configMode: 'file'
+    configFile: '${{variables.projectDir}}/sonar-project.properties'
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'

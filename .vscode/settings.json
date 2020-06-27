@@ -1,0 +1,18 @@
+{
+  "files.exclude": {
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true,
+    "**/services/**/common/**": true,
+    "**/services/**/common_test/**": true,
+    "**/.serverless/**": true
+  },
+  "python.envFile": "${workspaceFolder}/.env",
+  "python.formatting.provider": "black",
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pycodestyleArgs": ["--max-line-length=120"],
+  "vsintellicode.python.completionsEnabled": true,
+  "python.testing.pytestArgs": ["./widget-function"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false,
+  "python.testing.pytestEnabled": true
+}
