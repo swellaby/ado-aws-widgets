@@ -5,7 +5,7 @@ export class CloudWatchWidget {
 
     public async preload() {
         return {};
-    };
+    }
 
     public async load(_settings) {
         this.render();
