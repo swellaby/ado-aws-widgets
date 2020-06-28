@@ -7,7 +7,7 @@ def black(c):
 
 
 @task(aliases=["t"])
-def test_and_cover(c):
+def test(c):
     c.run("coverage run -m pytest --junitxml=junit.xml")
     c.run("coverage xml")
 

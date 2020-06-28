@@ -1,0 +1,33 @@
+parameters:
+  preCmd:
+  coveragePath:
+  projectDir:
+  buildCmd: 'build'
+
+steps:
+- bash: ${{parameters.preCmd}}  ${{parameters.buildCmd}}
+  name: Build
+  workingDirectory: ${{parameters.projectDir}}
+- bash: ${{parameters.preCmd}} test
+  name: Test
+  workingDirectory: ${{parameters.projectDir}}
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '${{parameters.projectDir}}/junit.xml'
+    testRunTitle: 'aws-widget-function-$(Build.BuildNumber)'
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '${{parameters.projectDir}}/${{parameters.coveragePath}}'
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud Swellaby'
+    organization: 'swellaby'
+    scannerMode: 'CLI'
+    configMode: 'file'
+    configFile: '${{parameters.projectDir}}/sonar-project.properties'
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
