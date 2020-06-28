@@ -2,11 +2,11 @@
   "manifestVersion": 1,
   "id": "ado-aws-widgets-dev",
   "publisher": "baileyeverts2",
-  "version": "0.0.39",
+  "version": "0.0.45",
   "name": "AWS Widgets",
   "description": "A collection of widgets for displaying data from AWS",
   "public": false,
-  "default": "dist/logo.png",
+  "default": "src/logo.png",
   "categories": [
     "Azure Pipelines"
   ],
@@ -20,14 +20,15 @@
       "id": "cloudwatch-widget",
       "type": "ms.vss-dashboards-web.widget",
       "targets": [
-        "ms.vss-dashboards-web.widget-catalog"
+        "ms.vss-dashboards-web.widget-catalog",
+        ".cloudwatch-config"
       ],
       "properties": {
         "name": "Cloudwatch Widget",
         "description": "View AWS Cloudwatch widgets as Azure DevOps Widgets",
-        "uri": "dist/index.html",
-        "catalogIconUrl": "dist/logo.png",
-        "previewImageUrl": "dist/logo.png",
+        "uri": "dist/cloudwatch-widget.html",
+        "catalogIconUrl": "src/logo.png",
+        "previewImageUrl": "src/logo.png",
         "isNameConfigurable": true,
         "supportedSizes": [
           {
@@ -37,11 +38,52 @@
         ],
         "supportedScopes": [ "project_team" ]
       }
+    },
+    {
+      "id": "cloudwatch-config",
+      "type": "ms.vss-dashboards-web.widget-configuration",
+      "targets": [ "ms.vss-dashboards-web.widget-configuration" ],
+      "properties": {
+          "name": "Cloudwatch Widget Configuration",
+          "description": "Configures Cloudwatch Widget",
+          "uri": "dist/cloudwatch-config.html"
+      }
+    },
+    {
+      "id": "service-endpoint",
+      "description": "Service endpoint type for Swellaby AWS Widgets",
+      "type": "ms.vss-endpoint.service-endpoint-type",
+      "targets": [ "ms.vss-endpoint.endpoint-types" ],
+      "properties": {
+        "name": "swellabyAws",
+        "displayName": "Swllaby AWS Connection",
+        "url": {
+          "displayName": "Serverless Url",
+          "helpText": "Base url for the service you deployed"
+        },
+        "dataSources": [
+          {
+            "name": "Swellaby AWS Widget",
+            "endpointUrl": "{{endpoint.url}}"
+          }
+
+        ],
+        "authenticationSchemes": [
+          {
+            "type": "ms.vss-endpoint.endpoint-auth-scheme-token"
+          }
+        ],
+        "helpMarkDown": "<a href=\"https://github.com/swellaby/ado-aws-widgets\" target=\"_blank\"><b>Learn More</b></a>"
+      }
     }
   ],
   "files": [
     {
       "path": "dist",
+      "addressable": true
+    },
+    {
+      "path": "src/logo.png",
       "addressable": true
     }
   ],
