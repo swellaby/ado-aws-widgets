@@ -1,16 +1,16 @@
-variables:
-  projectDir: extension
-
 trigger:
   paths:
     include:
     - extension/*
     - .azure-pipelines/extension.yml
+    - .azure-pipelines/templates/*
+
 pr:
   paths:
     include:
     - extension/*
     - .azure-pipelines/extension.yml
+    - .azure-pipelines/templates/*
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -21,30 +21,9 @@ steps:
     version: '12.x'
 - bash: npm install
   name: InstallDeps
-  workingDirectory: ${{variables.projectDir}}
-- bash: npm run build
-  name: Build
-  workingDirectory: ${{variables.projectDir}}
-- bash: npm run test
-  name: Test
-  workingDirectory: ${{variables.projectDir}}
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '${{variables.projectDir}}/junit.xml'
-    testRunTitle: 'aws-widget-function-$(Build.BuildNumber)'
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '${{variables.projectDir}}/coverage/cobertura-coverage.xml'
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud Swellaby'
-    organization: 'swellaby'
-    scannerMode: 'CLI'
-    configMode: 'file'
-    configFile: '${{variables.projectDir}}/sonar-project.properties'
-- task: SonarCloudAnalyze@1
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
+  workingDirectory: extension
+- template: templates/test-and-validate.yml
+  parameters:
+    preCmd: npm run
+    projectDir: extension
+    coveragePath: coverage/cobertura-coverage.xml
