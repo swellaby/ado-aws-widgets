@@ -1,0 +1,49 @@
+{
+  "manifestVersion": 1,
+  "id": "ado-aws-widgets-dev",
+  "publisher": "baileyeverts2",
+  "version": "0.0.39",
+  "name": "AWS Widgets",
+  "description": "A collection of widgets for displaying data from AWS",
+  "public": false,
+  "default": "dist/logo.png",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "cloudwatch-widget",
+      "type": "ms.vss-dashboards-web.widget",
+      "targets": [
+        "ms.vss-dashboards-web.widget-catalog"
+      ],
+      "properties": {
+        "name": "Cloudwatch Widget",
+        "description": "View AWS Cloudwatch widgets as Azure DevOps Widgets",
+        "uri": "dist/index.html",
+        "catalogIconUrl": "dist/logo.png",
+        "previewImageUrl": "dist/logo.png",
+        "isNameConfigurable": true,
+        "supportedSizes": [
+          {
+            "rowSpan": 1,
+            "columnSpan": 1
+          }
+        ],
+        "supportedScopes": [ "project_team" ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "dist",
+      "addressable": true
+    }
+  ],
+  "scopes": ["vso.work"]
+}

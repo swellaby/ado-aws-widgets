@@ -1,0 +1,19 @@
+﻿﻿{
+  "compilerOptions": {
+      "charset": "utf8",
+      "module": "amd",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "target": "es6",
+      "lib": [
+        "es5",
+        "es6",
+        "dom",
+        "es2015.promise"
+      ],
+      "types": [
+        "jest",
+        "node"
+      ]
+  }
+}
