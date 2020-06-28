@@ -4,7 +4,9 @@
     "**/.pytest_cache/**": true,
     "**/services/**/common/**": true,
     "**/services/**/common_test/**": true,
-    "**/.serverless/**": true
+    "**/.serverless/**": true,
+    "**/*coverage*/**": true,
+    "**/junit.xml": true,
   },
   "python.envFile": "${workspaceFolder}/.env",
   "python.formatting.provider": "black",

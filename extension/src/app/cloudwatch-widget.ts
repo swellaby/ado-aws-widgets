@@ -7,22 +7,14 @@ export class CloudWatchWidget {
         return {};
     }
 
-    public async load(_settings) {
-        this.render();
+    public async load(settings) {
+        this.render(settings.customSettings.data);
         return {};
     }
 
-    private render() {
+    private render(query: string) {
         this.widget = document.querySelector('.widget');
-        this.widget.innerText = 'I am alive';
+        this.widget.innerText = query;
         SDK.notifyLoadSucceeded();
-    }
-
-    static async init(): Promise<void> {
-        SDK.init();
-        await SDK.ready();
-        SDK.register('cloudwatch-widget', () => {
-            return new CloudWatchWidget();
-        });
     }
 }

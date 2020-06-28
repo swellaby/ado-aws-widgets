@@ -15,7 +15,8 @@ module.exports = {
     './src/app/*.ts'
   ],
   coveragePathIgnorePatterns: [
-    './src/app/entry.ts'
+    './src/app/cloudwatch-config-entry.ts',
+    './src/app/cloudwatch-widget-entry.ts',
   ],
   preset: 'ts-jest',
   reporters: [

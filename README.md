@@ -2,9 +2,18 @@
 
 Provides a widget for embedding cloudwatch widgets within Azure Devops dashboards.
 
-## Cloudwatch Widget
+## Setup
+1. Deploy Serverless function (steps described below)
+2. Create a service connection with API key and URL outputted from your deploy
+3. Add widgets to dashboards!
 
-Coming Soon!
+
+## Widgets
+
+### Cloudwatch Widget
+Use this widget to display widgets from cloudwatch. Widgets are defined using the syntax described [here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Metric-Widget-Structure.html). If you dont want to make your json by hand, you can create the widgets in a cloudwatch dashboard and copy the json from there.
+
+Size will be ignored if it is included in your widget definition and will be replaced with a size appropriate for the size of your tile.
 
 ## Widget Function
 In order to use this extension you must deploy a function to your AWS account for your widget to use.
