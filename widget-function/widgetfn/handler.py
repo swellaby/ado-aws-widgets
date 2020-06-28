@@ -2,7 +2,7 @@ from boto3 import client
 import base64
 
 
-def get_widget(event):
+def get_widget(event, context={}):
     res = {
         "headers": {
             "Access-Control-Allow-Origin": "*",
