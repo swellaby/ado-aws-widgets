@@ -9,7 +9,7 @@ export class DropdownOption {
     }
 }
 
-export function generatTextAreaField(id: string, title: string): string {
+export function generateTextAreaField(id: string, title: string): string {
     return `
         <div ${WRAPPER_STYLE}>
             ${getLabel(id, title)}
