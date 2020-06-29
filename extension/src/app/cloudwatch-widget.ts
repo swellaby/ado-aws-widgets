@@ -61,7 +61,7 @@ export class CloudWatchWidget {
         const res = await this.endpointClient.executeServiceEndpointRequest({
             dataSourceDetails: {
                 dataSourceName: null,
-                dataSourceUrl: `{{endpoint.url}}/{{endpoint.apitoken}}cloudwatch-widget?asstring=true&widget=${encodeURIComponent(JSON.stringify(this.widgetJson))}`,
+                dataSourceUrl: `{{endpoint.url}}/cloudwatch-widget?asstring=true&widget=${encodeURIComponent(JSON.stringify(this.widgetJson))}`,
                 headers: [],
                 initialContextTemplate: null,
                 parameters: {},
