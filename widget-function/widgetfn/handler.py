@@ -1,5 +1,6 @@
 from boto3 import client
 import base64
+import json
 
 
 def get_widget(event, context={}):
@@ -19,9 +20,14 @@ def get_widget(event, context={}):
 
     cloudwatch = client("cloudwatch")
     widget_img = cloudwatch.get_metric_widget_image(MetricWidget=widget_def)
+    encoded_image = base64.b64encode(widget_img["MetricWidgetImage"])
 
     res["statusCode"] = 200
-    res["headers"]["Content-Type"] = "image/png"
-    res["body"] = base64.b64encode(widget_img["MetricWidgetImage"])
-    res["isBase64Encoded"] = True
+    if event["queryStringParameters"]["asstring"] == "true":
+        res["headers"]["Content-Type"] = "application/json"
+        res["body"] = json.dumps({"image": encoded_image.decode("utf-8")})
+    else:
+        res["headers"]["Content-Type"] = "image/png"
+        res["body"] = encoded_image
+        res["isBase64Encoded"] = True
     return res
