@@ -1,6 +1,5 @@
 import * as SDK from 'azure-devops-extension-sdk';
 import { CommonServiceIds, IProjectPageService } from 'azure-devops-extension-api';
-import { getService } from 'azure-devops-extension-sdk';
 
 export const LOAD_ERR = 'Failed to load'
 const UNIT_SIZE = 155;
@@ -17,7 +16,7 @@ export async function init(name, fn: () => {}): Promise<void> {
 }
 
 export async function getProjectId(): Promise<string> {
-    const projectService: IProjectPageService = await getService(CommonServiceIds.ProjectPageService);
+    const projectService: IProjectPageService = await SDK.getService(CommonServiceIds.ProjectPageService);
     const project = await projectService.getProject();
     return project.id;
 }

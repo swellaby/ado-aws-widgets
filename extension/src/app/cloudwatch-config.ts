@@ -1,7 +1,9 @@
 import { getClient } from 'azure-devops-extension-api';
 import { ServiceEndpointRestClient, ServiceEndpoint } from 'azure-devops-extension-api/ServiceEndpoint';
 import { getProjectId } from './utils';
-import { generateDropdown, DropdownOption, generatTextAreaField } from './field-generators';
+import { generateDropdown, DropdownOption, generateTextAreaField } from './field-generators';
+
+export const CHANGE_EVENT = 'ms.vss-dashboards-web.configurationChange';
 
 export class CloudWatchConfig {
     constructor(
@@ -32,16 +34,16 @@ export class CloudWatchConfig {
     private getValue() {
         return { data: JSON.stringify({
             widget: this.queryField.value,
-            connectionId: this.endpointField.options[this.endpointField.selectedIndex].value
+            connectionId: this.endpointField.value
         })};
     }
 
     private configureFields(context) {
         this.queryField = <HTMLTextAreaElement>document.getElementById(this.queryFieldId);
-        this.queryField.onchange = () => context.notify('ms.vss-dashboards-web.configurationChange', this.getValue());
+        this.queryField.onchange = () => context.notify(CHANGE_EVENT, this.getValue());
 
         this.endpointField = <HTMLSelectElement>document.getElementById(this.endpointFieldId);
-        this.endpointField.onchange = () => context.notify('ms.vss-dashboards-web.configurationChange', this.getValue());
+        this.endpointField.onchange = () => context.notify(CHANGE_EVENT, this.getValue());
     }
 
     private setValueFromData(data: string) {
@@ -61,7 +63,7 @@ export class CloudWatchConfig {
         const container = document.querySelector('.container');
         container.innerHTML = `
             ${generateDropdown(this.endpointFieldId, 'Service Connection', this.serviceEndpoints.map(endpoint => new DropdownOption(endpoint.name, endpoint.id)))}
-            ${generatTextAreaField(this.queryFieldId, 'Widget JSON')}
+            ${generateTextAreaField(this.queryFieldId, 'Widget JSON')}
         `;
     }
 }

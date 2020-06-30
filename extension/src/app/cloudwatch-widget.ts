@@ -9,7 +9,7 @@ export class CloudWatchWidget {
     private projectId: string;
     private endpointId: string;
     private widgetJson: any;
-    private height: number;
+    private height: number; s
     private width: number;
 
     constructor(
@@ -22,8 +22,10 @@ export class CloudWatchWidget {
     }
 
     public async load(settings) {
-        this.setDimensions(settings.size);
-        this.render(settings.customSettings.data);
+        const { customSettings, size } = settings;
+        this.setDimensions(size);
+        this.render(customSettings.data);
+        await notifyLoadSucceeded();
         return {};
     }
 
@@ -31,7 +33,6 @@ export class CloudWatchWidget {
         this.setSettings(data);
         this.setupElements();
         this.image.src = await this.retrieveImageSrc();
-        notifyLoadSucceeded();
     }
 
     private setupElements(): void {
@@ -44,9 +45,9 @@ export class CloudWatchWidget {
         }
     }
 
-    private setDimensions(size: {columnSpan: number, rowSpan: number }): void {
-        this.height = getSideLength(size.rowSpan);
-        this.width = getSideLength(size.columnSpan);
+    private setDimensions({ columnSpan, rowSpan }): void {
+        this.height = getSideLength(rowSpan);
+        this.width = getSideLength(columnSpan);
     }
 
     private setSettings(data): void {

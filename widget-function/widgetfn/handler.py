@@ -23,7 +23,10 @@ def get_widget(event, context={}):
     encoded_image = base64.b64encode(widget_img["MetricWidgetImage"])
 
     res["statusCode"] = 200
-    if event["queryStringParameters"]["asstring"] == "true":
+    if (
+        "asstring" in event["queryStringParameters"]
+        and event["queryStringParameters"]["asstring"] == "true"
+    ):
         res["headers"]["Content-Type"] = "application/json"
         res["body"] = json.dumps({"image": encoded_image.decode("utf-8")})
     else:
