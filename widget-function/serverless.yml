@@ -9,6 +9,9 @@ provider:
   name: aws
   runtime: python3.8
   memorySize: 128
+  logs:
+    restApi:
+      format: '$context.identity.sourceIp $context.httpMethod $context.resourcePath $context.status $context.requestId'
   apiKeys:
     - azureDevops
   iamRoleStatements:
@@ -42,3 +45,4 @@ functions:
             parameters:
                 querystrings:
                     widget: true
+                    asstring: true

@@ -1,41 +1,73 @@
-import { AdoMock } from '../helpers/ado-mock';
-const adoMock = AdoMock.initMock();
+import { AdoApiMock, AdoSdkMock, AdoServiceEndpointMock } from '../helpers';
+const sdkMock = AdoSdkMock.initMock();
+AdoApiMock.initMock();
+AdoServiceEndpointMock.initMock();
 import { CloudWatchWidget } from '../../src/app/cloudwatch-widget';
 
-describe('CloudWatchWidget', () => {
-    beforeEach(() => jest.clearAllMocks());
+class TestHarness {
+    constructor() {
+        this.createEleSpy = jest.spyOn(document, 'createElement')
+        this.createEleSpy.mockReturnValue(<any>this.img);
+        jest.spyOn(document, 'querySelector').mockReturnValue(<any>this.ele);
+        sdkMock.getService.mockReturnValue({ getProject: () => ({ id: 'c' }) });
+        this.sut = new CloudWatchWidget(<any>{ executeServiceEndpointRequest: this.reqSpy });
+    }
 
-    describe('class methods', () => {
-        let sut: CloudWatchWidget;
+    public sut: CloudWatchWidget;
+    public ele = { appendChild: jest.fn() };
+    public img = { src: undefined };
+    public reqSpy = jest.fn();
+    public createEleSpy: jest.SpyInstance;
+}
+
+describe('CloudWatchWidget', () => {
+    let harness: TestHarness;
+
+    beforeEach(() => {
+        harness = new TestHarness();
+        jest.clearAllMocks();
+    });
+
+    it('can get its own endpointClient', async () => {
+        sdkMock.getService.mockReturnValue({ getClient: () => ({}) });
+        expect(new CloudWatchWidget()).not.toBeNull();
+    });
+
+    describe('preload', () => {
+        it('should set project id', async () => {
+            await harness.sut.preload();
+            expect(harness.sut['projectId']).toBe('c');
+        });
+    });
+
+    describe('load', () => {
+        let settings;
 
         beforeEach(() => {
-            sut = new CloudWatchWidget();
+            settings = { size: { rowSpan: 2, columnSpan: 3 }, customSettings: { data: '{"widget":"{}"}' } };
+            harness.reqSpy.mockImplementation(async () => ({ result: ['{"image":"imgstr"}'] }));
         });
 
-        describe('preload', () => {
-            it('should return nothing', async () => {
-                const res = await sut.preload();
-                expect(res).toEqual({});
-            });
+        it('should notify loaded', async () => {
+            await harness.sut.load(settings);
+            expect(sdkMock.notifyLoadSucceeded).toHaveBeenCalledTimes(1);
         });
 
-        describe('load', () => {
-            let querySpy: jest.SpyInstance;
-            let fakeEle;
+        it('should set dimensions correctly', async () => {
+            await harness.sut.load(settings);
+            expect(harness.sut['width']).toBe(485);
+            expect(harness.sut['height']).toBe(320);
+        });
 
-            beforeEach(() => {
-                fakeEle = { innerText: '' };
-                querySpy = jest.spyOn(document, 'querySelector');
-                querySpy.mockReturnValue(fakeEle);
-            });
+        it('should create image element once', async () => {
+            await harness.sut.load(settings);
+            await harness.sut.load(settings);
+            expect(harness.createEleSpy).toHaveBeenCalledTimes(1);
+        });
 
-            it('should notify loaded', async () => {
-                const res = await sut.load({ customSettings: { data: 'I am alive' }});
-                expect(res).toEqual({});
-                expect(adoMock.notifyLoadSucceeded).toHaveBeenCalledTimes(1);
-                expect(fakeEle.innerText).toBe('I am alive');
-                expect(querySpy).toHaveBeenCalledWith('.widget');
-            });
+        it('should configure image correctly', async () => {
+            await harness.sut.load(settings);
+            expect(harness.img.src).toBe('data:image/png;base64, imgstr');
         });
     });
 });
