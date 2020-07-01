@@ -1,5 +1,9 @@
 const WRAPPER_STYLE='style="margin-bottom=10px;"'
-const getLabel = (id: string, title: string): string => `<label for="${id}" style="margin-bottom: 8px; color: rgba(0,0,0,.55); font-size: .875rem; font-family: Helvetica;">${title}</label>`;
+const getLabel = (id: string, title: string): string => `<div>
+    <label for="${id}" style="margin-bottom: 8px; color: rgba(0,0,0,.55); font-size: .875rem; font-family: Helvetica;">
+        ${title}
+    </label>
+</div>`;
 
 export class DropdownOption {
     constructor(public label: string, public value: string) {}
@@ -13,7 +17,7 @@ export function generateTextAreaField(id: string, title: string): string {
     return `
         <div ${WRAPPER_STYLE}>
             ${getLabel(id, title)}
-            <textarea id="${id}"></textarea>
+            <textarea style="width: 100%; hieght: 80px;" id="${id.trim()}"></textarea>
         </div>
     `;
 }
@@ -23,7 +27,7 @@ export function generateDropdown(id: string, title: string, options: DropdownOpt
     return `
     <div ${WRAPPER_STYLE}>
         ${getLabel(id, title)}
-        <select id="${id}">
+        <select style="width: 100%;" id="${id.trim()}">
             ${optionsHtml}
         </select>
     </div>
