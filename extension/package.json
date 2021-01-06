@@ -22,7 +22,7 @@
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
     "@types/jest": "^26.0.9",
-    "copy-webpack-plugin": "^6.0.3",
+    "copy-webpack-plugin": "^7.0.0",
     "fixpack": "^3.0.6",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
