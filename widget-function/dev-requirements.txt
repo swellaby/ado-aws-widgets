@@ -4,4 +4,4 @@ pycodestyle==2.6.0
 black==19.3b0
 invoke==1.4.1
 coverage==5.1
-boto3==1.14.12
+boto3==1.17.5
