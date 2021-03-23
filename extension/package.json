@@ -29,7 +29,7 @@
     "jest": "^26.2.2",
     "jest-junit": "^11.1.0",
     "lint-staged": "^10.2.11",
-    "tfx-cli": "^0.8.1",
+    "tfx-cli": "^0.9.0",
     "ts-jest": "^26.1.4",
     "ts-loader": "^8.0.2",
     "typescript": "^3.9.7",
