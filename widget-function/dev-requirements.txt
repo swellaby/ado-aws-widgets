@@ -1,5 +1,5 @@
 pytest==6.2.2
-pytest-mock==3.5.1
+pytest-mock==3.6.1
 pycodestyle==2.7.0
 black==19.3b0
 invoke==1.5.0
