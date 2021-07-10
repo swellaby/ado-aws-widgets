@@ -24,7 +24,7 @@
     "@types/jest": "^26.0.9",
     "copy-webpack-plugin": "^9.0.1",
     "fixpack": "^4.0.0",
-    "html-webpack-plugin": "^4.3.0",
+    "html-webpack-plugin": "^5.0.0",
     "husky": "4.3.8",
     "jest": "^26.2.2",
     "jest-junit": "^11.1.0",
