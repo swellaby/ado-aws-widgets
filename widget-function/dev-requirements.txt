@@ -3,5 +3,5 @@ pytest-mock==3.6.1
 pycodestyle==2.7.0
 black==19.3b0
 invoke==1.6.0
-coverage==5.5
+coverage==6.0.2
 boto3==1.18.47
